@@ -16,8 +16,7 @@ public class Board {
         return board[y][x];
     }
 
-    public State setPiece(int x, int y) {
-        return board[y][x];
+    public void setPiece(int x, int y, State state) {
     }
 
     public void update(Board board) {
