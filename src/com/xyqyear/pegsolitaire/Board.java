@@ -13,11 +13,11 @@ public class Board {
     private int pieceNum = 32;
 
     public State getPiece(int x, int y) {
-        return board[x][y];
+        return board[y][x];
     }
 
     public State setPiece(int x, int y) {
-        return board[x][y];
+        return board[y][x];
     }
 
     public void update(Board board) {

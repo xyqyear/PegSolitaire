@@ -6,23 +6,17 @@ import java.awt.*;
 public class ButtonHandler extends JFrame {
     private static JButton[][] buttons =new JButton[7][7];
     private Core core;
+    private boolean firstButton = false;
+    private int fromX;
+    private int fromY;
     public ButtonHandler (Core core) {
         this.core = core;
         for (int y = 0; y < 7; y++) {
             for (int x = 0; x < 7; x++) {
                 buttons[x][y] = new JButton();
-                setButtonFunction(buttons[x][y]);
-                addListener(buttons[x][y]);
+                buttons[x][y].addActionListener(new ButtonListener(core, this, x, y));
             }
         }
-    }
-
-    private void setButtonFunction(JButton button) {
-
-    }
-
-    private void addListener(JButton button) {
-        button.addActionListener(new ButtonListener(core, this));
     }
 
     private void setText(JButton button, State state) {

@@ -1,6 +1,12 @@
+# idea files
 .idea
 out
 *.iml
+
+# eclipse files
+.settings
+.classpath
+.project
 
 # github java .gitignore
 # Compiled class file
