@@ -1,18 +1,22 @@
 **W.I.P.**
 
+## Current Gui
+
+![gui](GUI.png)
+
 ## Classes
 
-Main: create gui object and launch gui.
+- **Main**: create gui object and launch gui.
 
-Gui: main gui windows object.
+- **Gui**: main gui windows object.
 
-ButtonHandler: add button to the window and add listener to each button.
+- **ButtonHandler**: add button to the window and add listener to each button.
 
-ButtonListener: listen to user's pushing action, pass action to game core.
+- **ButtonListener**: listen to user's pushing action, pass action to game core.
 
-Core: peg solitaire the game itself.
+- **Core**: peg solitaire the game itself.
 
-Board: game's board.
+- **Board**: game's board.
 
 
 ## UML diagram
