@@ -6,9 +6,9 @@ import java.awt.*;
 public class ButtonHandler extends JFrame {
     private static JButton[][] buttons =new JButton[7][7];
     private Core core;
-    private static boolean firstButton = false;
-    private static int fromX;
-    private static int fromY;
+    private boolean firstButton = false;
+    private int fromX;
+    private int fromY;
     public ButtonHandler (Core core) {
         this.core = core;
         for (int y = 0; y < 7; y++) {
