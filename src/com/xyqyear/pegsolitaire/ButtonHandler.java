@@ -19,6 +19,30 @@ public class ButtonHandler extends JFrame {
         }
     }
 
+    public boolean isFirstButton() {
+        return firstButton;
+    }
+
+    public void setFirstButton(boolean firstButton) {
+        this.firstButton = firstButton;
+    }
+
+    public int getFromX() {
+        return fromX;
+    }
+
+    public void setFromX(int fromX) {
+        this.fromX = fromX;
+    }
+
+    public int getFromY() {
+        return fromY;
+    }
+
+    public void setFromY(int fromY) {
+        this.fromY = fromY;
+    }
+
     private void setText(JButton button, State state) {
         switch (state) {
             case DISABLED:
