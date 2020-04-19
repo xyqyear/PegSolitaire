@@ -16,6 +16,12 @@ public class ButtonListener implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
-    	System.out.println(posX + " " + posY);
+    	if (this.buttonHandler.isFirstButton()) {
+    		this.buttonHandler.setFirstButton(false);
+    		this.buttonHandler.setFromX(this.posX);
+    		this.buttonHandler.setFromY(this.posY);
+    	} else {
+    		this.buttonHandler.setFirstButton(true);
+    	}
     }
 }

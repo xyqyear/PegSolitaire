@@ -6,7 +6,7 @@ import java.awt.*;
 public class ButtonHandler extends JFrame {
     private static JButton[][] buttons =new JButton[7][7];
     private Core core;
-    private boolean firstButton = false;
+    private boolean firstButton = true;
     private int fromX;
     private int fromY;
     public ButtonHandler (Core core) {
