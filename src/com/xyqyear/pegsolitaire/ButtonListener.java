@@ -17,6 +17,9 @@ public class ButtonListener implements ActionListener {
     }
     @Override
     public void actionPerformed(ActionEvent e) {
+    	if (this.core.getBoard().getPiece(posX, posY) != State.EXIST)
+    		return;
+    	
         // 如果是第一次按下，那么就把判断第一次按下的设置为false
         // 并且设置第一次按下的坐标为x和y
     	if (this.buttonHandler.isFirstButton()) {
