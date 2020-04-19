@@ -12,6 +12,10 @@ public class Core {
         boardHistory.clear();
     }
 
+    public boolean canDoStep(int fromX, int fromY, int toX, int toY) {
+        return false;
+    }
+
     public boolean doStep(int fromX, int fromY, int toX, int toY) {
         return false;
     }
