@@ -66,15 +66,23 @@ public class ButtonHandler extends JFrame {
         Board board = core.getBoard();
         for (int y = 0; y < 7; y++) {
             for (int x = 0; x < 7; x++) {
+                if (core.isInBoard(new Position(x, y)))
+                    setButtonState(x, y, board.getPiece(x, y));
+            }
+        }
+    }
+
+    public void initBoard() {
+        Board board = core.getBoard();
+        for (int y = 0; y < 7; y++) {
+            for (int x = 0; x < 7; x++) {
                 setButtonState(x, y, board.getPiece(x, y));
             }
         }
     }
 
     public void addButtonsToGui(Container c) {
-        // handle pieces
-        Board board = core.getBoard();
-        refreshBoard();
+        initBoard();
         for (int y = 0; y < 7; y++) {
             for (int x = 0; x < 7; x++) {
                 c.add(buttons[x][y]);

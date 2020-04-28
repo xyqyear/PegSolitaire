@@ -12,6 +12,14 @@ public class Board {
     };
     private int pieceNum = 32;
 
+    public Board() {
+        super();
+    }
+
+    public Board(Board board) {
+        this.update(board);
+    }
+
     public State getPiece(int x, int y) {
     	
         return board[y][x];
@@ -35,7 +43,7 @@ public class Board {
     			this.board[j][i] = board.getPiece(i,j);
     		}
     	}
-    	 this.pieceNum = board.getPieceNum();
+    	this.pieceNum = board.getPieceNum();
     }
 
     // 获取棋子的个数
