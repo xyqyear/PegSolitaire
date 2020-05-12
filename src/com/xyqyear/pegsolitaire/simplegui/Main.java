@@ -1,4 +1,6 @@
-package com.xyqyear.pegsolitaire;
+package com.xyqyear.pegsolitaire.simplegui;
+
+import com.xyqyear.pegsolitaire.core.Core;
 
 public class Main {
     private static Core core = Core.getInstance();

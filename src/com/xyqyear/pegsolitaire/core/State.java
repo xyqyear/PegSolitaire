@@ -1,4 +1,4 @@
-package com.xyqyear.pegsolitaire;
+package com.xyqyear.pegsolitaire.core;
 
 public enum State {
     DISABLED, EXIST, TAKEN

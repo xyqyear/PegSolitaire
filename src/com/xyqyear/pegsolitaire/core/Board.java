@@ -1,4 +1,4 @@
-package com.xyqyear.pegsolitaire;
+package com.xyqyear.pegsolitaire.core;
 
 public class Board {
     private State[][] board = {

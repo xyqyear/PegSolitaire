@@ -1,4 +1,4 @@
-package com.xyqyear.pegsolitaire;
+package com.xyqyear.pegsolitaire.simplegui;
 
 public class Position {
     private int x;

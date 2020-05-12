@@ -1,4 +1,4 @@
-package com.xyqyear.pegsolitaire;
+package com.xyqyear.pegsolitaire.simplegui;
 
 import javax.swing.*;
 import java.awt.*;

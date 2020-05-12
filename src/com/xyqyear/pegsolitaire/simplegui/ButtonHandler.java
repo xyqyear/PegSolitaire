@@ -1,4 +1,8 @@
-package com.xyqyear.pegsolitaire;
+package com.xyqyear.pegsolitaire.simplegui;
+
+import com.xyqyear.pegsolitaire.core.Board;
+import com.xyqyear.pegsolitaire.core.Core;
+import com.xyqyear.pegsolitaire.core.State;
 
 import javax.swing.*;
 import java.awt.*;

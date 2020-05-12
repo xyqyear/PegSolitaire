@@ -1,4 +1,6 @@
-package com.xyqyear.pegsolitaire;
+package com.xyqyear.pegsolitaire.core;
+
+import com.xyqyear.pegsolitaire.simplegui.Position;
 
 import java.util.ArrayList;
 
