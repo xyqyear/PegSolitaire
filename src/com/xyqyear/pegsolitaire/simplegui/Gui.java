@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Gui extends JFrame {
-    public Gui(Core core) {
-        ButtonHandler buttonHandler = new ButtonHandler(core);
+    public Gui() {
+        ButtonHandler buttonHandler = new ButtonHandler();
         Container c = getContentPane();
         buttonHandler.addButtonsToGui(c);
         setLayout(new GridLayout(7,7,1,1));

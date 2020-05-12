@@ -4,17 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ButtonHandler extends JFrame {
-    private JButton[][] buttons =new JButton[7][7];
-    private Core core;
+    private JButton[][] buttons = new JButton[7][7];
+    private Core core = Core.getInstance();
     private boolean firstButton = true;
     private int fromX;
     private int fromY;
-    public ButtonHandler (Core core) {
-        this.core = core;
+    public ButtonHandler () {
         for (int y = 0; y < 7; y++) {
             for (int x = 0; x < 7; x++) {
                 buttons[x][y] = new JButton();
-                buttons[x][y].addActionListener(new ButtonListener(core, this, x, y));
+                buttons[x][y].addActionListener(new ButtonListener(this, x, y));
             }
         }
     }

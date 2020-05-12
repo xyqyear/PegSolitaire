@@ -1,17 +1,22 @@
 package com.xyqyear.pegsolitaire;
 
-import javafx.geometry.Pos;
-
 import java.util.ArrayList;
 
 public class Core {
+    private static Core singletonCore;
+    private Core() {
+        this.init();
+    }
+    public static Core getInstance() {
+        if (singletonCore == null)
+            singletonCore = new Core();
+        return singletonCore;
+    }
+
     private final Board initBoard = new Board();
     private Board board = new Board();
     private ArrayList<Board> boardHistory = new ArrayList<>();
 
-    public Core() {
-        this.init();
-    }
 
     public void init() {
         board.update(initBoard);

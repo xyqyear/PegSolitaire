@@ -6,12 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class ButtonListener implements ActionListener {
-    private Core core;
+    private Core core = Core.getInstance();
     private ButtonHandler buttonHandler;
     private int posX;
     private int posY;
-    public ButtonListener(Core core, ButtonHandler buttonHandler, int x, int y) {
-        this.core = core;
+    public ButtonListener(ButtonHandler buttonHandler, int x, int y) {
         this.buttonHandler = buttonHandler;
         this.posX = x;
         this.posY = y;
