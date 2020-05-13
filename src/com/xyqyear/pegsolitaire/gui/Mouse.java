@@ -30,7 +30,7 @@ public class Mouse implements MouseMotionListener, MouseListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        mousePos.setPosition(e.getPoint());
+
     }
 
     @Override
@@ -38,7 +38,10 @@ public class Mouse implements MouseMotionListener, MouseListener {
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        mousePos.setPosition(e.getPoint());
+        if (SwingUtilities.isLeftMouseButton(e)) {
+            mousePos.setPosition(e.getPoint());
+            mouseLeftDown = true;
+        }
     }
 
     @Override
@@ -50,6 +53,7 @@ public class Mouse implements MouseMotionListener, MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
+            mousePos.setPosition(e.getPoint());
             mouseLeftDown = true;
         }
     }

@@ -48,7 +48,7 @@ public class Game {
                     if (pos != null && core.getBoard().getPiece(pos) == State.EXIST) {
                         fromPos = pos;
                     }
-                } else if (isDragging && !mouse.isMouseLeftDown() && fromPos != null) {
+                } else if (isDragging && !mouse.isMouseLeftDown()) {
                     isDragging = false;
                     Position toPos = Utils.screenPos2PiecePos(mouse.getMousePos());
                     core.doStep(fromPos, toPos);
