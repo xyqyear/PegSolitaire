@@ -36,12 +36,14 @@ public class Core {
     }
 
     public boolean isInBoard(Position pos) {
-        return (pos.getX() >= 0 && pos.getX() < 7 && pos.getY() >= 0 && pos.getY() < 7)
+        return pos != null && (pos.getX() >= 0 && pos.getX() < 7 && pos.getY() >= 0 && pos.getY() < 7)
                 && ((pos.getX() > 1 && pos.getX() < 5) || (pos.getY() > 1 && pos.getY() < 5));
     }
 
     // 判断这样子走棋是否非法
     public boolean canDoStep(Position from, Position to) {
+        if (!(isInBoard(from) && isInBoard(to)))
+            return false;
         Position middlePos = getMiddle(from, to);
         if (middlePos != null)
             return board.getPiece(from.getX(), from.getY()) == State.EXIST &&

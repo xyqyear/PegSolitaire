@@ -29,7 +29,7 @@ public class Renderer {
     private BufferedImage pieceImage;
 
     private Position pieceRenderOffset = new Position(0 ,0);
-    private boolean holdingRenderPiece = false;
+    private boolean isFirstRenderHoldingPiece = true;
 
     private void init() {
         try {
@@ -44,28 +44,31 @@ public class Renderer {
     public void renderGame(Graphics2D g) {
         if (game.getState() == 1) {
             g.drawImage(boardImage, 0, 0,null);
-            Position holdingPiece = game.getHoldingPiece();
+            Position fromPos = game.getFromPos();
+            Position currentPos = new Position(0, 0);
+
             for (int x = 0; x < 7; x++) {
                 for (int y = 0; y < 7; y++) {
                     if (core.getBoard().getPiece(x, y) == com.xyqyear.pegsolitaire.core.State.EXIST) {
-                        if (holdingPiece == null || !holdingPiece.equal(x, y)) {
-                            Position pos = Utils.piecePos2ScreenPos(x, y);
-                            g.drawImage(pieceImage, pos.getX(), pos.getY(), null);
+                        if (fromPos == null || !fromPos.equal(x, y)) {
+                            currentPos.setPosition(Utils.piecePos2ScreenPos(x, y));
+                            g.drawImage(pieceImage, currentPos.getX(), currentPos.getY(), null);
                         }
                     }
                 }
             }
-            if (holdingPiece != null) {
-                Position pos = new Position(mouse.getMousePos());
-                if (!holdingRenderPiece) {
-                    holdingRenderPiece = true;
-                    Position pieceScreenPos = Utils.piecePos2ScreenPos(holdingPiece.getX(), holdingPiece.getY());
-                    pieceRenderOffset.setPosition(pieceScreenPos.getX() - pos.getX(), pieceScreenPos.getY() - pos.getY());
+
+            if (fromPos != null) {
+                currentPos.setPosition(mouse.getMousePos());
+                if (isFirstRenderHoldingPiece) {
+                    isFirstRenderHoldingPiece = false;
+                    Position pieceScreenPos = Utils.piecePos2ScreenPos(fromPos.getX(), fromPos.getY());
+                    pieceRenderOffset.setPosition(pieceScreenPos.getX() - currentPos.getX(), pieceScreenPos.getY() - currentPos.getY());
                 }
-                pos.move(pieceRenderOffset);
-                g.drawImage(pieceImage, pos.getX(), pos.getY(), null);
+                currentPos.move(pieceRenderOffset);
+                g.drawImage(pieceImage, currentPos.getX(), currentPos.getY(), null);
             } else {
-                holdingRenderPiece = false;
+                isFirstRenderHoldingPiece = true;
             }
         }
     }
