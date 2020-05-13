@@ -45,6 +45,9 @@ public class Renderer {
     }
 
     public void renderGame(Graphics2D g, BufferedImage bg) {
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+
         g.drawImage(boardImage, 0, 0,null);
         Position fromPos = game.getFromPos();
         Position currentPos = new Position(0, 0);
@@ -65,10 +68,11 @@ public class Renderer {
             if (isFirstRenderHoldingPiece) {
                 isFirstRenderHoldingPiece = false;
                 Position pieceScreenPos = Utils.piecePos2ScreenPos(fromPos.getX(), fromPos.getY());
-                game.setPieceRenderOffset(pieceScreenPos.getX() - currentPos.getX(), pieceScreenPos.getY() - currentPos.getY());
+                // the magic number 5 for the piece amplification
+                game.setPieceRenderOffset(pieceScreenPos.getX() - currentPos.getX() - 5, pieceScreenPos.getY() - currentPos.getY() - 5);
             }
             currentPos.move(game.getPieceRenderOffset());
-            g.drawImage(pieceImage, currentPos.getX(), currentPos.getY(), null);
+            g.drawImage(pieceImage, currentPos.getX(), currentPos.getY(), 70, 70, null);
         } else {
             isFirstRenderHoldingPiece = true;
         }

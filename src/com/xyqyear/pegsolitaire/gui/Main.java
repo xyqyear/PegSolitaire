@@ -23,6 +23,7 @@ public class Main extends Thread {
                     .getDefaultConfiguration();
 
     // Game stuff
+    private final int maxFps = 60;
     private Game game = Game.getInstance();
     private Renderer renderer = Renderer.getInstance();
 
@@ -94,7 +95,7 @@ public class Main extends Thread {
 
     public void run() {
         Graphics2D backgroundGraphics = (Graphics2D) background.getGraphics();
-        long fpsWait = (long) (1.0 / 60 * 1000);
+        long fpsWait = (long) (1.0 / maxFps * 1000);
         main: while (isRunning) {
             long renderStart = System.nanoTime();
             game.loop();
