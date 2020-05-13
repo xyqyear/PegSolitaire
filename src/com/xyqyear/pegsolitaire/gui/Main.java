@@ -47,6 +47,7 @@ public class Main extends Thread {
         canvas.setSize(WIDTH, HEIGHT);
         canvas.addMouseListener(Mouse.getInstance());
         canvas.addMouseMotionListener(Mouse.getInstance());
+        canvas.addKeyListener(Keyboard.getInstance());
         frame.add(canvas, 0);
 
         // Background & Buffer
@@ -104,7 +105,7 @@ public class Main extends Thread {
                 if (!isRunning) {
                     break main;
                 }
-                renderer.renderGame(backgroundGraphics); // this calls your draw method
+                renderer.renderGame(backgroundGraphics, background);
                 bg.drawImage(background, 0, 0, null);
                 bg.dispose();
             } while (!updateScreen());

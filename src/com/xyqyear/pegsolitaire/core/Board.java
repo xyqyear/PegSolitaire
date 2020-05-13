@@ -29,8 +29,6 @@ public class Board {
         return getPiece(position.getX(), position.getY());
     }
 
-    // 设置某一个位置的棋子为给定状态
-    // 注意： 要修改pieceNum， 比如这个位置本来有棋子，后来没棋子，pieceNum就减一
     public void setPiece(int x, int y, State state) {
     	if (board[y][x] == State.EXIST && state == State.TAKEN)
     		this.pieceNum--;
@@ -43,8 +41,6 @@ public class Board {
         setPiece(position.getX(), position.getY(), state);
     }
 
-    // 将参数的棋盘复制到自己里面，包含棋子和pieceNum
-    // 注意： 数组的复制要用for循环深拷贝
     public void update(Board board) {
     	for(int i = 0; i < 7; i++) {
     		for(int j = 0; j < 7; j++) {
@@ -54,7 +50,6 @@ public class Board {
     	this.pieceNum = board.getPieceNum();
     }
 
-    // 获取棋子的个数
     public int getPieceNum() {
         return pieceNum;
     }
