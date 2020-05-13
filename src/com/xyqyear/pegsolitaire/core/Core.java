@@ -1,7 +1,5 @@
 package com.xyqyear.pegsolitaire.core;
 
-import com.xyqyear.pegsolitaire.simplegui.Position;
-
 import java.util.ArrayList;
 
 public class Core {
@@ -19,10 +17,12 @@ public class Core {
     private Board board = new Board();
     private ArrayList<Board> boardHistory = new ArrayList<>();
 
+    private boolean finished;
 
     public void init() {
         board.update(initBoard);
         boardHistory.clear();
+        finished = false;
     }
 
     public Position getMiddle(Position from, Position to) {
@@ -72,12 +72,18 @@ public class Core {
 
     // 悔棋方法，从历史棋盘里面取出上一步的棋盘，复制到当前棋盘中
     public void takeBack() {
+        if (finished)
+            finished = false;
+
         this.board.update(boardHistory.get(boardHistory.size()-1));
         boardHistory.remove(boardHistory.size()-1);
     }
 
     // 判断游戏是否结束
     public boolean isFinished() {
+        if (finished)
+            return true;
+
         for (int y = 0; y < 7; y++) {
             for (int x = 0; x < 7; x++) {
                 Position from = new Position(x, y);
@@ -107,6 +113,7 @@ public class Core {
             }
         }
 
+        finished = true;
         return true;
     }
 
