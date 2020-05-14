@@ -32,7 +32,7 @@ public class Renderer {
     private BufferedImage pushedButtonImage;
 
     private BufferedImage blurredImage;
-    private int blurredIteration = 0;
+    private int blurredIteration = 19;
 
     private boolean isFirstRenderHoldingPiece = true;
 
@@ -84,19 +84,38 @@ public class Renderer {
             // render blurred background
             if (blurredIteration < 20) {
                 blurredIteration++;
-                blurredImage = new BoxBlurFilter(blurredIteration / 2, blurredIteration / 2, 1).filter(bg, null);
             }
+            blurredImage = new BoxBlurFilter(blurredIteration / 2, blurredIteration / 2, 1).filter(bg, null);
             Utils.copyImage(blurredImage, bg);
 
             // render the buttons
             if  (blurredIteration >= 20) {
                 for (MenuButton menuButton : game.getMenuButtons()) {
-                    if (menuButton.isPushing())
-                        g.drawImage(pushedButtonImage, menuButton.getPosition().getX(), menuButton.getPosition().getY(), null);
-                    else if (menuButton.isHovering())
-                        g.drawImage(buttonImage, menuButton.getPosition().getX()-5, menuButton.getPosition().getY()-5, 240 + 10, 70 + 10, null);
-                    else
-                        g.drawImage(buttonImage, menuButton.getPosition().getX(), menuButton.getPosition().getY(), null);
+
+                    if (!menuButton.isAvailable()) {
+                        g.drawImage(pushedButtonImage, menuButton.getX(), menuButton.getY(), null);
+                        g.setFont(new Font("隶书", Font.PLAIN, 40));
+                        g.setColor(Color.darkGray);
+                        g.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
+                    }
+                    else if (menuButton.isPushing()) {
+                        g.drawImage(pushedButtonImage, menuButton.getX(), menuButton.getY(), null);
+                        g.setFont(new Font("隶书", Font.PLAIN, 40));
+                        g.setColor(Color.black);
+                        g.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
+                    }
+                    else if (menuButton.isHovering()) {
+                        g.drawImage(buttonImage, menuButton.getX() - 5, menuButton.getY() - 5, 240 + 10, 70 + 10, null);
+                        g.setFont(new Font("隶书", Font.PLAIN, 46));
+                        g.setColor(Color.black);
+                        g.drawString( menuButton.getButtonString(), menuButton.getX()+20, menuButton.getY()+40);
+                    }
+                    else {
+                        g.drawImage(buttonImage, menuButton.getX(), menuButton.getY(), null);
+                        g.setFont(new Font("隶书", Font.PLAIN, 40));
+                        g.setColor(Color.black);
+                        g.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
+                    }
                 }
             }
 

@@ -13,10 +13,14 @@ public class Keyboard implements KeyListener {
         return singletonKeyboard;
     }
 
-    private boolean shouldGamePause = false;
+    private boolean shouldGamePause = true;
 
     public boolean shouldGamePause() {
         return shouldGamePause;
+    }
+
+    public void setShouldGamePause(boolean shouldGamePause) {
+        this.shouldGamePause = shouldGamePause;
     }
 
     @Override

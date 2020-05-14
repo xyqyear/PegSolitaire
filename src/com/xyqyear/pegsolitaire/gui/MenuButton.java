@@ -3,22 +3,48 @@ package com.xyqyear.pegsolitaire.gui;
 import com.xyqyear.pegsolitaire.core.Position;
 
 public class MenuButton {
-    private String id;
+    private int id;
+    private String buttonString;
     private Position position;
+
+    private boolean available;
     private boolean hovering;
     private boolean pushing;
 
-    public MenuButton (String id, Position position) {
+    public MenuButton (int id, String buttonString, Position position) {
         this.id = id;
+        this.buttonString = buttonString;
         this.position = position;
+
+        available = true;
     }
 
     public Position getPosition() {
         return position;
     }
 
-    public String getId() {
+    public int getX() {
+        return position.getX();
+    }
+
+    public int getY() {
+        return position.getY();
+    }
+
+    public int getId() {
         return id;
+    }
+
+    public String getButtonString() {
+        return buttonString;
+    }
+
+    public boolean isAvailable() {
+        return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     public boolean isHovering() {
