@@ -28,6 +28,8 @@ public class Renderer {
 
     private BufferedImage boardImage;
     private BufferedImage pieceImage;
+    private BufferedImage buttonImage;
+    private BufferedImage pushedButtonImage;
 
     private BufferedImage blurredImage;
     private int blurredIteration = 0;
@@ -38,7 +40,8 @@ public class Renderer {
         try {
             boardImage = ImageIO.read(getClass().getResource("/assets/Board.png"));
             pieceImage = ImageIO.read(getClass().getResource("/assets/Piece.png"));
-
+            buttonImage = ImageIO.read(getClass().getResource("/assets/Button.png"));
+            pushedButtonImage = ImageIO.read(getClass().getResource("/assets/ButtonPushed.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,11 +81,26 @@ public class Renderer {
         }
 
         if (game.getState() == 0) {
+            // render blurred background
             if (blurredIteration < 20) {
                 blurredIteration++;
                 blurredImage = new BoxBlurFilter(blurredIteration / 2, blurredIteration / 2, 1).filter(bg, null);
             }
             Utils.copyImage(blurredImage, bg);
+
+            // render the buttons
+            if  (blurredIteration >= 20) {
+                for (MenuButton menuButton : game.getMenuButtons()) {
+                    if (menuButton.isPushing())
+                        g.drawImage(pushedButtonImage, menuButton.getPosition().getX(), menuButton.getPosition().getY(), null);
+                    else if (menuButton.isHovering())
+                        g.drawImage(buttonImage,
+                                menuButton.getPosition().getX()-5, menuButton.getPosition().getY()-5, 240 + 10, 70 + 10, null);
+                    else
+                        g.drawImage(buttonImage, menuButton.getPosition().getX(), menuButton.getPosition().getY(), null);
+                }
+            }
+
         } else if (blurredIteration > 0)
             blurredIteration = 0;
     }

@@ -4,6 +4,8 @@ import com.xyqyear.pegsolitaire.core.Core;
 import com.xyqyear.pegsolitaire.core.Position;
 import com.xyqyear.pegsolitaire.core.State;
 
+import javax.rmi.CORBA.Util;
+
 public class Game {
     private static Game singletonGame;
     private Game(){}
@@ -17,11 +19,21 @@ public class Game {
     private Keyboard keyboard = Keyboard.getInstance();
     private Core core = Core.getInstance();
 
-    private int state = 1; // 0 for pre-start, 1 for in-game
+    private int state = 1; // 0 for paused, 1 for in-game
 
     private boolean isDragging = false;
     private Position fromPos = null;
     private Position pieceRenderOffset = new Position(0 ,0);
+
+    // Position for buttons
+    private final Position buttonSize = new Position(230, 60);
+    private MenuButton[] menuButtons = new MenuButton[]{
+            new MenuButton("resume", new Position(190, 110)),
+            new MenuButton("takeBack", new Position(190, 190)),
+            new MenuButton("restart", new Position(190, 270)),
+            new MenuButton("record", new Position(190, 350)),
+            new MenuButton("ranking", new Position(190, 430))
+    };
 
     public int getState() {
         return state;
@@ -33,6 +45,14 @@ public class Game {
 
     public Position getPieceRenderOffset() {
         return pieceRenderOffset;
+    }
+
+    public MenuButton[] getMenuButtons() {
+        return menuButtons;
+    }
+
+    public Position getButtonSize() {
+        return buttonSize;
     }
 
     public void setPieceRenderOffset(int x, int y) {
@@ -69,6 +89,23 @@ public class Game {
         } else {
             if (!keyboard.shouldGamePause()) {
                 state = 1;
+            }
+
+            for (MenuButton menuButton : menuButtons) {
+                if (Utils.inRange(mouse.getMousePos(), menuButton.getPosition(), buttonSize)) {
+                    menuButton.setHovering(true);
+                    if (mouse.isMouseLeftDown() && !menuButton.isPushing())
+                        menuButton.setPushing(true);
+                    else if (!mouse.isMouseLeftDown() && menuButton.isPushing()) {
+                        // button push logic
+                        menuButton.setPushing(false);
+
+
+                    }
+                } else {
+                    menuButton.setHovering(false);
+                    menuButton.setPushing(false);
+                }
             }
         }
     }

@@ -36,4 +36,11 @@ public class Utils {
         g.dispose();
         return destination;
     }
+
+    public static boolean inRange(Position target, Position start, Position range) {
+        return     target.getX() >= start.getX()
+                && target.getX() <= start.getX() + range.getX()
+                && target.getY() >= start.getY()
+                && target.getY() <= start.getY() + range.getY();
+    }
 }

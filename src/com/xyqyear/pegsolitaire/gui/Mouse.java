@@ -30,7 +30,7 @@ public class Mouse implements MouseMotionListener, MouseListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-
+        mousePos.setPosition(e.getPoint());
     }
 
     @Override
