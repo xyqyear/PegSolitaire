@@ -17,7 +17,7 @@ public class Utils {
 
     public static Position screenPos2PiecePos(int x, int y) {
         Position pos = new Position((x - 79) / 65, (y - 80) / 66);
-        if (Core.getInstance().isInBoard(pos))
+        if (x >= 79 && y >= 80 && Core.getInstance().isInBoard(pos))
             return pos;
         else
             return null;

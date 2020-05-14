@@ -1,6 +1,7 @@
 package com.xyqyear.pegsolitaire.gui;
 
 import com.xyqyear.pegsolitaire.core.Position;
+import javafx.geometry.Pos;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
@@ -17,7 +18,8 @@ public class Mouse implements MouseMotionListener, MouseListener {
         return singletonMouse;
     }
 
-    private Position mousePos = new Position(0,0);
+    private Position mousePos = new Position();
+    private Position mouseOnScreenPos = new Position();
     private boolean mouseLeftDown = false;
 
     public boolean isMouseLeftDown() {
@@ -40,6 +42,7 @@ public class Mouse implements MouseMotionListener, MouseListener {
     public void mouseDragged(MouseEvent e) {
         if (SwingUtilities.isLeftMouseButton(e)) {
             mousePos.setPosition(e.getPoint());
+            mouseOnScreenPos.setPosition(e.getLocationOnScreen());
             mouseLeftDown = true;
         }
     }

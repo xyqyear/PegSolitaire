@@ -37,7 +37,8 @@ public class Main extends Thread {
     // Setup
     public Main() {
         // JFrame
-        frame = new JFrame("Peg Solitaire");
+        frame = SingletonJFrame.getInstance();
+        frame.setTitle("Peg Solitaire");
         frame.addWindowListener(new FrameClose());
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.setSize(WIDTH, HEIGHT);

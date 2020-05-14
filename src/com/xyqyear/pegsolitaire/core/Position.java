@@ -12,13 +12,15 @@ public class Position {
     }
 
     public Position (Point point) {
-        this.x = (int) point.getX();
-        this.y = (int) point.getY();
+        this((int) point.getX(), (int) point.getY());
     }
 
     public Position (Position position) {
-        this.x = position.getX();
-        this.y = position.getY();
+        this(position.getX(), position.getY());
+    }
+
+    public Position () {
+        this(0, 0);
     }
 
     public int getX() {

@@ -4,8 +4,6 @@ import com.xyqyear.pegsolitaire.core.Core;
 import com.xyqyear.pegsolitaire.core.Position;
 import com.xyqyear.pegsolitaire.core.State;
 
-import javax.rmi.CORBA.Util;
-
 public class Game {
     private static Game singletonGame;
     private Game(){}
@@ -23,10 +21,10 @@ public class Game {
 
     private boolean isDragging = false;
     private Position fromPos = null;
-    private Position pieceRenderOffset = new Position(0 ,0);
+    private Position pieceRenderOffset = new Position();
 
     // Position for buttons
-    private final Position buttonSize = new Position(230, 60);
+    private final Position buttonSize = new Position(225, 55);
     private MenuButton[] menuButtons = new MenuButton[]{
             new MenuButton("resume", new Position(190, 110)),
             new MenuButton("takeBack", new Position(190, 190)),
@@ -71,9 +69,9 @@ public class Game {
             if (!core.isFinished()) {
                 // get drag start position
                 if (!isDragging && mouse.isMouseLeftDown()) {
-                    isDragging = true;
                     Position pos = Utils.screenPos2PiecePos(mouse.getMousePos());
                     if (pos != null && core.getBoard().getPiece(pos) == State.EXIST) {
+                        isDragging = true;
                         fromPos = pos;
                     }
                 } else if (isDragging && !mouse.isMouseLeftDown()) {
@@ -90,7 +88,6 @@ public class Game {
             if (!keyboard.shouldGamePause()) {
                 state = 1;
             }
-
             for (MenuButton menuButton : menuButtons) {
                 if (Utils.inRange(mouse.getMousePos(), menuButton.getPosition(), buttonSize)) {
                     menuButton.setHovering(true);

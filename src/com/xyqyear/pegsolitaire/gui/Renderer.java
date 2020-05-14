@@ -53,7 +53,7 @@ public class Renderer {
 
         g.drawImage(boardImage, 0, 0,null);
         Position fromPos = game.getFromPos();
-        Position currentPos = new Position(0, 0);
+        Position currentPos = new Position();
 
         for (int x = 0; x < 7; x++) {
             for (int y = 0; y < 7; y++) {
@@ -94,8 +94,7 @@ public class Renderer {
                     if (menuButton.isPushing())
                         g.drawImage(pushedButtonImage, menuButton.getPosition().getX(), menuButton.getPosition().getY(), null);
                     else if (menuButton.isHovering())
-                        g.drawImage(buttonImage,
-                                menuButton.getPosition().getX()-5, menuButton.getPosition().getY()-5, 240 + 10, 70 + 10, null);
+                        g.drawImage(buttonImage, menuButton.getPosition().getX()-5, menuButton.getPosition().getY()-5, 240 + 10, 70 + 10, null);
                     else
                         g.drawImage(buttonImage, menuButton.getPosition().getX(), menuButton.getPosition().getY(), null);
                 }
