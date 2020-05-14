@@ -58,9 +58,9 @@ Paused:
     - [x] Render the game itself
     - [x] make the game playable
     - [x] add blur effect when pressed escape key
-    - [ ] draw some menu icons/buttons
-    - [ ] add basic menu rendering
-    - [ ] add icons/buttons to the menu
+    - [x] draw some menu icons/buttons
+    - [x] add basic menu rendering
+    - [x] add icons/buttons to the menu
     - [ ] make the menu clickable
     - [ ] add ranking/record menu
     - [ ] add the animation that make the pieces which are taken be placed in the groove
