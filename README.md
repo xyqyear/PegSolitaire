@@ -61,8 +61,10 @@ Paused:
     - [x] draw some menu icons/buttons
     - [x] add basic menu rendering
     - [x] add icons/buttons to the menu
-    - [ ] make the menu clickable
+    - [x] make the menu clickable
     - [ ] add ranking/record menu
+    - [ ] add game start and game over screen/string
+    - [ ] optimize performance
     - [ ] add the animation that make the pieces which are taken be placed in the groove
     - [ ] ...
     
