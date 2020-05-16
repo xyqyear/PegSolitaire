@@ -7,6 +7,12 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Utils {
+    // create a hardware accelerated image
+    public static BufferedImage create(int width, int height, boolean alpha) {
+        return Config.config.createCompatibleImage(width, height, alpha
+                ? Transparency.TRANSLUCENT : Transparency.OPAQUE);
+    }
+
     public static Position piecePos2ScreenPos(int x, int y) {
         return new Position(79 + x * 65, 80 + y * 66);
     }

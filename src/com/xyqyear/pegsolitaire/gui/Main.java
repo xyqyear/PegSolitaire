@@ -14,46 +14,32 @@ public class Main extends Thread {
     private BufferStrategy strategy;
     private BufferedImage background;
     private Graphics2D graphics;
-    private JFrame frame;
-    private final int WIDTH = 616;
-    private final int HEIGHT = 639;
-    private GraphicsConfiguration config =
-            GraphicsEnvironment.getLocalGraphicsEnvironment()
-                    .getDefaultScreenDevice()
-                    .getDefaultConfiguration();
+    private JFrame jFrame;
 
     // Game stuff
-    private final int maxFps = 60;
     private Game game = Game.getInstance();
     private Renderer renderer = Renderer.getInstance();
-
-    // create a hardware accelerated image
-    public final BufferedImage create(final int width, final int height,
-                                      final boolean alpha) {
-        return config.createCompatibleImage(width, height, alpha
-                ? Transparency.TRANSLUCENT : Transparency.OPAQUE);
-    }
 
     // Setup
     public Main() {
         // JFrame
-        frame = SingletonJFrame.getInstance();
-        frame.setTitle("Peg Solitaire");
-        frame.addWindowListener(new FrameClose());
-        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        frame.setSize(WIDTH, HEIGHT);
-        frame.setVisible(true);
+        jFrame = SingletonJFrame.getInstance();
+        jFrame.setTitle("Peg Solitaire");
+        jFrame.addWindowListener(new FrameClose());
+        jFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        jFrame.setSize(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);
+        jFrame.setVisible(true);
 
         // Canvas
-        Canvas canvas = new Canvas(config);
-        canvas.setSize(WIDTH, HEIGHT);
+        Canvas canvas = new Canvas(Config.config);
+        canvas.setSize(Config.CANVAS_WIDTH, Config.CANVAS_HEIGHT);
         canvas.addMouseListener(Mouse.getInstance());
         canvas.addMouseMotionListener(Mouse.getInstance());
         canvas.addKeyListener(Keyboard.getInstance());
-        frame.add(canvas, 0);
+        jFrame.add(canvas, 0);
 
         // Background & Buffer
-        background = create(WIDTH, HEIGHT, false);
+        background = Utils.create(Config.CANVAS_WIDTH, Config.CANVAS_HEIGHT, false);
         canvas.createBufferStrategy(2);
         do {
             strategy = canvas.getBufferStrategy();
@@ -96,7 +82,7 @@ public class Main extends Thread {
 
     public void run() {
         Graphics2D backgroundGraphics = (Graphics2D) background.getGraphics();
-        long fpsWait = (long) (1.0 / maxFps * 1000);
+        long fpsWait = (long) (1.0 / Config.MAX_FPS * 1000);
         main: while (isRunning) {
             long renderStart = System.nanoTime();
             game.loop();
@@ -107,7 +93,7 @@ public class Main extends Thread {
                 if (!isRunning) {
                     break main;
                 }
-                renderer.renderGame(backgroundGraphics, background);
+                renderer.renderGame(backgroundGraphics);
                 bg.drawImage(background, 0, 0, null);
                 bg.dispose();
             } while (!updateScreen());
@@ -121,7 +107,7 @@ public class Main extends Thread {
                 break;
             }
         }
-        frame.dispose();
+        jFrame.dispose();
     }
 
     public static void main(final String[] args) {

@@ -31,7 +31,7 @@ public class Renderer {
     private BufferedImage buttonImage;
     private BufferedImage pushedButtonImage;
 
-    private BufferedImage blurredImage;
+    private BufferedImage frame = Utils.create(Config.CANVAS_WIDTH, Config.CANVAS_HEIGHT, false);
     private int blurredIteration = 19;
 
     private boolean isFirstRenderHoldingPiece = true;
@@ -47,79 +47,87 @@ public class Renderer {
         }
     }
 
-    public void renderGame(Graphics2D g, BufferedImage bg) {
-        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+    public void renderGame(Graphics2D g) {
+        if (game.shouldRerender()) {
+            game.setShouldRerender(false);
+            Graphics2D frameG = (Graphics2D) frame.getGraphics();
 
-        g.drawImage(boardImage, 0, 0,null);
-        Position fromPos = game.getFromPos();
-        Position currentPos = new Position();
+            frameG.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            frameG.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
-        for (int x = 0; x < 7; x++) {
-            for (int y = 0; y < 7; y++) {
-                if (core.getBoard().getPiece(x, y) == State.EXIST) {
-                    if (fromPos == null || !fromPos.equal(x, y)) {
-                        currentPos.setPosition(Utils.piecePos2ScreenPos(x, y));
-                        g.drawImage(pieceImage, currentPos.getX(), currentPos.getY(), null);
-                    }
-                }
-            }
-        }
+            frameG.drawImage(boardImage, 0, 0,null);
+            Position fromPos = game.getFromPos();
+            Position currentPos = new Position();
 
-        if (fromPos != null) {
-            currentPos.setPosition(mouse.getMousePos());
-            if (isFirstRenderHoldingPiece) {
-                isFirstRenderHoldingPiece = false;
-                Position pieceScreenPos = Utils.piecePos2ScreenPos(fromPos.getX(), fromPos.getY());
-                // the magic number 5 for the piece amplification
-                game.setPieceRenderOffset(pieceScreenPos.getX() - currentPos.getX() - 5, pieceScreenPos.getY() - currentPos.getY() - 5);
-            }
-            currentPos.move(game.getPieceRenderOffset());
-            g.drawImage(pieceImage, currentPos.getX(), currentPos.getY(), 70, 70, null);
-        } else {
-            isFirstRenderHoldingPiece = true;
-        }
-
-        if (game.getState() == 0) {
-            // render blurred background
-            if (blurredIteration < 20) {
-                blurredIteration++;
-            }
-            blurredImage = new BoxBlurFilter(blurredIteration / 2, blurredIteration / 2, 1).filter(bg, null);
-            Utils.copyImage(blurredImage, bg);
-
-            // render the buttons
-            if  (blurredIteration >= 20) {
-                for (MenuButton menuButton : game.getMenuButtons()) {
-
-                    if (!menuButton.isAvailable()) {
-                        g.drawImage(pushedButtonImage, menuButton.getX(), menuButton.getY(), null);
-                        g.setFont(new Font("隶书", Font.PLAIN, 40));
-                        g.setColor(Color.darkGray);
-                        g.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
-                    }
-                    else if (menuButton.isPushing()) {
-                        g.drawImage(pushedButtonImage, menuButton.getX(), menuButton.getY(), null);
-                        g.setFont(new Font("隶书", Font.PLAIN, 40));
-                        g.setColor(Color.black);
-                        g.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
-                    }
-                    else if (menuButton.isHovering()) {
-                        g.drawImage(buttonImage, menuButton.getX() - 5, menuButton.getY() - 5, 240 + 10, 70 + 10, null);
-                        g.setFont(new Font("隶书", Font.PLAIN, 46));
-                        g.setColor(Color.black);
-                        g.drawString( menuButton.getButtonString(), menuButton.getX()+20, menuButton.getY()+40);
-                    }
-                    else {
-                        g.drawImage(buttonImage, menuButton.getX(), menuButton.getY(), null);
-                        g.setFont(new Font("隶书", Font.PLAIN, 40));
-                        g.setColor(Color.black);
-                        g.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
+            for (int x = 0; x < 7; x++) {
+                for (int y = 0; y < 7; y++) {
+                    if (core.getBoard().getPiece(x, y) == State.EXIST) {
+                        if (fromPos == null || !fromPos.equal(x, y)) {
+                            currentPos.setPosition(Utils.piecePos2ScreenPos(x, y));
+                            frameG.drawImage(pieceImage, currentPos.getX(), currentPos.getY(), null);
+                        }
                     }
                 }
             }
 
-        } else if (blurredIteration > 0)
-            blurredIteration = 0;
+            if (fromPos != null) {
+                game.setShouldRerender(true);
+                currentPos.setPosition(mouse.getMousePos());
+                if (isFirstRenderHoldingPiece) {
+                    isFirstRenderHoldingPiece = false;
+                    Position pieceScreenPos = Utils.piecePos2ScreenPos(fromPos.getX(), fromPos.getY());
+                    // the magic number 5 for the piece amplification
+                    game.setPieceRenderOffset(pieceScreenPos.getX() - currentPos.getX() - 5, pieceScreenPos.getY() - currentPos.getY() - 5);
+                }
+                currentPos.move(game.getPieceRenderOffset());
+                frameG.drawImage(pieceImage, currentPos.getX(), currentPos.getY(), 70, 70, null);
+            } else {
+                isFirstRenderHoldingPiece = true;
+            }
+
+            if (game.getState() == 0) {
+                // render blurred background
+                if (blurredIteration < 20) {
+                    game.setShouldRerender(true);
+                    blurredIteration++;
+                }
+                BufferedImage blurredFrame = new BoxBlurFilter(blurredIteration / 2, blurredIteration / 2, 1).filter(frame, null);
+                Utils.copyImage(blurredFrame, frame);
+
+                // render the buttons
+                if  (blurredIteration >= 20) {
+                    for (MenuButton menuButton : game.getMenuButtons()) {
+
+                        if (!menuButton.isAvailable()) {
+                            frameG.drawImage(pushedButtonImage, menuButton.getX(), menuButton.getY(), null);
+                            frameG.setFont(new Font("隶书", Font.PLAIN, 40));
+                            frameG.setColor(Color.darkGray);
+                            frameG.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
+                        }
+                        else if (menuButton.isPushing()) {
+                            frameG.drawImage(pushedButtonImage, menuButton.getX(), menuButton.getY(), null);
+                            frameG.setFont(new Font("隶书", Font.PLAIN, 40));
+                            frameG.setColor(Color.black);
+                            frameG.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
+                        }
+                        else if (menuButton.isHovering()) {
+                            frameG.drawImage(buttonImage, menuButton.getX() - 5, menuButton.getY() - 5, 240 + 10, 70 + 10, null);
+                            frameG.setFont(new Font("隶书", Font.PLAIN, 46));
+                            frameG.setColor(Color.black);
+                            frameG.drawString( menuButton.getButtonString(), menuButton.getX()+20, menuButton.getY()+40);
+                        }
+                        else {
+                            frameG.drawImage(buttonImage, menuButton.getX(), menuButton.getY(), null);
+                            frameG.setFont(new Font("隶书", Font.PLAIN, 40));
+                            frameG.setColor(Color.black);
+                            frameG.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
+                        }
+                    }
+                }
+
+            } else if (blurredIteration > 0)
+                blurredIteration = 0;
+        }
+        g.drawImage(frame, 0, 0, null);
     }
 }
