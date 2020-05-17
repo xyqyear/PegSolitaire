@@ -3,15 +3,15 @@
 ## Current Gui
 Stage 1:
 
-![gui](GUI.png)
+![gui](readme_images/GUI.png)
 
 Stage 2:
 
-![gui2-1](GUI2-1.png)
+![gui2-1](readme_images/GUI2-1.png)
 
 Paused:
 
-![gui2-2](GUI2-2.png)
+![gui2-2](readme_images/GUI2-2.png)
 
 ## Classes
 
