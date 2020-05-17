@@ -43,9 +43,15 @@ Paused:
     
     - **Renderer**: the class that renders the whole game
     
-    - **Keyboard** & **Mouse**: the classes that handle mouse and keyboard event
+    - **KeyboardManager** & **MouseManager**: the classes that handle mouse and keyboard event
     
     - **Utils**: some useful utilities
+    
+    - **MenuButton**: the properties of the buttons in the menu
+    
+    - **SingletonJFrame**: Unused (supposed to be used in custom windows moving)
+    
+    - **RecordManager**:  the class that manage game record
     
 ## TODO
 

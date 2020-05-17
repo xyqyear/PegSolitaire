@@ -1,21 +1,20 @@
 package com.xyqyear.pegsolitaire.gui;
 
 import com.xyqyear.pegsolitaire.core.Position;
-import javafx.geometry.Pos;
 
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-public class Mouse implements MouseMotionListener, MouseListener {
+public class MouseManager implements MouseMotionListener, MouseListener {
     // singleton stuff
-    private static Mouse singletonMouse;
-    private Mouse(){}
-    public static Mouse getInstance() {
-        if (singletonMouse == null)
-            singletonMouse = new Mouse();
-        return singletonMouse;
+    private static MouseManager singletonMouseManager;
+    private MouseManager(){}
+    public static MouseManager getInstance() {
+        if (singletonMouseManager == null)
+            singletonMouseManager = new MouseManager();
+        return singletonMouseManager;
     }
 
     private Position mousePos = new Position();

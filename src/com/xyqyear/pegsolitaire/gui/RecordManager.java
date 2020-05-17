@@ -2,16 +2,16 @@ package com.xyqyear.pegsolitaire.gui;
 
 import java.sql.*;
 
-public class Record {
+public class RecordManager {
     // singleton stuff
-    private static Record singletonRecord;
-    private Record(){
+    private static RecordManager singletonRecordManager;
+    private RecordManager(){
         init();
     }
-    public static Record getInstance() {
-        if (singletonRecord == null)
-            singletonRecord = new Record();
-        return singletonRecord;
+    public static RecordManager getInstance() {
+        if (singletonRecordManager == null)
+            singletonRecordManager = new RecordManager();
+        return singletonRecordManager;
     }
 
     private Connection connection = null;

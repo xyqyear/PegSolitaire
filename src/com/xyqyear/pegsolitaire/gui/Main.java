@@ -33,9 +33,9 @@ public class Main extends Thread {
         // Canvas
         Canvas canvas = new Canvas(Config.config);
         canvas.setSize(Config.CANVAS_WIDTH, Config.CANVAS_HEIGHT);
-        canvas.addMouseListener(Mouse.getInstance());
-        canvas.addMouseMotionListener(Mouse.getInstance());
-        canvas.addKeyListener(Keyboard.getInstance());
+        canvas.addMouseListener(MouseManager.getInstance());
+        canvas.addMouseMotionListener(MouseManager.getInstance());
+        canvas.addKeyListener(KeyboardManager.getInstance());
         jFrame.add(canvas, 0);
 
         // Background & Buffer

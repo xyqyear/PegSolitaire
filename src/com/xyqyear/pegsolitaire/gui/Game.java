@@ -13,10 +13,10 @@ public class Game {
         return singletonGame;
     }
 
-    private Mouse mouse = Mouse.getInstance();
-    private Keyboard keyboard = Keyboard.getInstance();
+    private MouseManager mouseManager = MouseManager.getInstance();
+    private KeyboardManager keyboardManager = KeyboardManager.getInstance();
     private Core core = Core.getInstance();
-    private Record record = Record.getInstance();
+    private RecordManager recordManager = RecordManager.getInstance();
 
     private int state = 0; // 0 for paused, 1 for in-game
     private boolean shouldRerender = true;
@@ -77,7 +77,7 @@ public class Game {
 
         if (state == 1) {
             // handle escape key
-            if (keyboard.shouldGamePause()) {
+            if (keyboardManager.shouldGamePause()) {
                 state = 0;
                 setShouldRerender(true);
                 return true;
@@ -86,56 +86,56 @@ public class Game {
             // Piece handling
             if (!core.isFinished()) {
                 // get drag start position
-                if (fromPos == null && mouse.isMouseLeftDown()) {
-                    Position pos = Utils.screenPos2PiecePos(mouse.getMousePos());
+                if (fromPos == null && mouseManager.isMouseLeftDown()) {
+                    Position pos = Utils.screenPos2PiecePos(mouseManager.getMousePos());
                     if (pos != null && core.getBoard().getPiece(pos) == State.EXIST) {
                         fromPos = pos;
                         setShouldRerender(true);
                     }
-                } else if (fromPos != null && !mouse.isMouseLeftDown()) {
-                    Position mousePos = new Position(mouse.getMousePos());
+                } else if (fromPos != null && !mouseManager.isMouseLeftDown()) {
+                    Position mousePos = new Position(mouseManager.getMousePos());
                     // visual offset
                     mousePos.move(pieceRenderOffset.getX() + 26, pieceRenderOffset.getY() + 26);
                     Position toPos = Utils.screenPos2PiecePos(mousePos);
                     core.doStep(fromPos, toPos);
                     if (core.isFinished()) {
-                        record.addRecord(core.getBoard().getPieceNum());
-                        keyboard.setShouldGamePause(true);
+                        recordManager.addRecord(core.getBoard().getPieceNum());
+                        keyboardManager.setShouldGamePause(true);
                     }
                     fromPos = null;
                     setShouldRerender(true);
                 }
             }
         } else {
-            if (!keyboard.shouldGamePause()) {
+            if (!keyboardManager.shouldGamePause()) {
                 state = 1;
                 setShouldRerender(true);
                 return true;
             }
             for (MenuButton menuButton : menuButtons) {
-                if (Utils.inRange(mouse.getMousePos(), menuButton.getPosition(), buttonSize)) {
+                if (Utils.inRange(mouseManager.getMousePos(), menuButton.getPosition(), buttonSize)) {
                     if (!menuButton.isHovering()) {
                         menuButton.setHovering(true);
                         setShouldRerender(true);
                     }
-                    if (mouse.isMouseLeftDown() && !menuButton.isPushing()) {
+                    if (mouseManager.isMouseLeftDown() && !menuButton.isPushing()) {
                         menuButton.setPushing(true);
                         setShouldRerender(true);
                     }
-                    else if (!mouse.isMouseLeftDown() && menuButton.isPushing()) {
+                    else if (!mouseManager.isMouseLeftDown() && menuButton.isPushing()) {
                         // button push logic
                         menuButton.setPushing(false);
                         if (menuButton.isAvailable()) {
                             switch (menuButton.getId()) {
                                 case 0:
-                                    keyboard.setShouldGamePause(false);
+                                    keyboardManager.setShouldGamePause(false);
                                     break;
                                 case 1:
                                     core.takeBack();
                                     break;
                                 case 2:
                                     core.init();
-                                    keyboard.setShouldGamePause(false);
+                                    keyboardManager.setShouldGamePause(false);
                                     break;
                                 case 3:
                                     return false;

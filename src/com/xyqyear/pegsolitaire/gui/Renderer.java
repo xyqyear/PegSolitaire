@@ -24,8 +24,8 @@ public class Renderer {
 
     private Core core = Core.getInstance();
     private Game game = Game.getInstance();
-    private Mouse mouse = Mouse.getInstance();
-    private Record record = Record.getInstance();
+    private MouseManager mouseManager = MouseManager.getInstance();
+    private RecordManager recordManager = RecordManager.getInstance();
 
     private BufferedImage boardImage;
     private BufferedImage pieceImage;
@@ -73,7 +73,7 @@ public class Renderer {
 
             if (fromPos != null) {
                 game.setShouldRerender(true);
-                currentPos.setPosition(mouse.getMousePos());
+                currentPos.setPosition(mouseManager.getMousePos());
                 if (isFirstRenderHoldingPiece) {
                     isFirstRenderHoldingPiece = false;
                     Position pieceScreenPos = Utils.piecePos2ScreenPos(fromPos.getX(), fromPos.getY());
@@ -111,7 +111,7 @@ public class Renderer {
                         }
                         frameG.setFont(new Font(Config.TITLE_FONT, Font.PLAIN, 30));
                         frameG.setColor(Color.black);
-                        int highScore = record.getHighScore();
+                        int highScore = recordManager.getHighScore();
                         if (highScore == 0) {
                             frameG.drawString("无游戏记录", 225, 190);
                         } else {

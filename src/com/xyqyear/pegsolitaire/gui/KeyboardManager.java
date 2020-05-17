@@ -3,14 +3,14 @@ package com.xyqyear.pegsolitaire.gui;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class Keyboard implements KeyListener {
+public class KeyboardManager implements KeyListener {
     // singleton stuff
-    private static Keyboard singletonKeyboard;
-    private Keyboard(){}
-    public static Keyboard getInstance() {
-        if (singletonKeyboard == null)
-            singletonKeyboard = new Keyboard();
-        return singletonKeyboard;
+    private static KeyboardManager singletonKeyboardManager;
+    private KeyboardManager(){}
+    public static KeyboardManager getInstance() {
+        if (singletonKeyboardManager == null)
+            singletonKeyboardManager = new KeyboardManager();
+        return singletonKeyboardManager;
     }
 
     private boolean shouldGamePause = true;
