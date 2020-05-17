@@ -72,4 +72,3 @@ Paused:
     - [x] add game start and game over screen/string
     - [x] add record
 - [ ] fix bugs / optimize code
-    

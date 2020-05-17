@@ -51,15 +51,16 @@ public class Renderer {
     public void renderGame(Graphics2D g) {
         if (game.shouldRerender()) {
             game.setShouldRerender(false);
-            Graphics2D frameG = (Graphics2D) frame.getGraphics();
 
+            // graphics properties
+            Graphics2D frameG = (Graphics2D) frame.getGraphics();
             frameG.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             frameG.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 
+            // draw board and pieces
             frameG.drawImage(boardImage, 0, 0,null);
             Position fromPos = game.getFromPos();
             Position currentPos = new Position();
-
             for (int x = 0; x < 7; x++) {
                 for (int y = 0; y < 7; y++) {
                     if (core.getBoard().getPiece(x, y) == State.EXIST) {
@@ -97,29 +98,32 @@ public class Renderer {
 
                 // render the buttons
                 if  (blurredIteration >= 20) {
+                    // game title
+                    frameG.setFont(new Font(Config.TITLE_FONT, Font.PLAIN, Config.TITLE_SIZE));
+                    frameG.setColor(Color.black);
+                    frameG.drawString("孔明棋", Config.TITLE_X, Config.TITLE_Y);
+
+                    // game over
+                    if (core.isFinished()) {
+                        frameG.setFont(new Font(Config.GAMEOVER_FONT, Font.PLAIN, Config.GAMEOVER_SIZE));
+                        frameG.setColor(Color.red);
+                        frameG.drawString("游戏结束", Config.GAMEOVER_X, Config.GAMEOVER_Y);
+                    }
+
+                    // record
+                    frameG.setFont(new Font(Config.HIGHSCORE_FONT, Font.PLAIN, Config.HIGHSCORE_SIZE));
+                    frameG.setColor(Color.black);
+                    int highScore = recordManager.getHighScore();
+                    if (highScore == 0) {
+                        frameG.drawString("无游戏记录", Config.HIGHSCORE_X, Config.HIGHSCORE_Y);
+                    } else {
+                        frameG.drawString("最少记录:", Config.HIGHSCORE_X, Config.HIGHSCORE_Y);
+                        frameG.setColor(Color.red);
+                        frameG.drawString(Integer.toString(highScore), Config.HIGHSCORE_INT_X, Config.HIGHSCORE_INT_Y);
+                    }
+
+                    // buttons
                     for (MenuButton menuButton : game.getMenuButtons()) {
-                        // game title
-                        frameG.setFont(new Font(Config.TITLE_FONT, Font.PLAIN, Config.TITLE_SIZE));
-                        frameG.setColor(Color.black);
-                        frameG.drawString("孔明棋", Config.TITLE_X, Config.TITLE_Y);
-
-                        // game over
-                        if (core.isFinished()) {
-                            frameG.setFont(new Font(Config.TITLE_FONT, Font.PLAIN, 35));
-                            frameG.setColor(Color.red);
-                            frameG.drawString("游戏结束", 230, 140);
-                        }
-                        frameG.setFont(new Font(Config.TITLE_FONT, Font.PLAIN, 30));
-                        frameG.setColor(Color.black);
-                        int highScore = recordManager.getHighScore();
-                        if (highScore == 0) {
-                            frameG.drawString("无游戏记录", 225, 190);
-                        } else {
-                            frameG.drawString("最少记录:", 225, 190);
-                            frameG.setColor(Color.red);
-                            frameG.drawString(Integer.toString(highScore), 360, 190);
-                        }
-
                         if (!menuButton.isAvailable()) {
                             frameG.drawImage(pushedButtonImage, menuButton.getX(), menuButton.getY(), null);
                             frameG.setFont(new Font(Config.BUTTON_FONT, Font.PLAIN, Config.BUTTON_SIZE));
