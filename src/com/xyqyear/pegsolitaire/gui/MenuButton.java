@@ -7,6 +7,8 @@ public class MenuButton {
     private String buttonString;
     private Position position;
 
+    private static int staticId = 0;
+
     private boolean available;
     private boolean hovering;
     private boolean pushing;
@@ -17,6 +19,14 @@ public class MenuButton {
         this.position = position;
 
         available = true;
+    }
+
+    public MenuButton (int id, String buttonString) {
+        this(id, buttonString, new Position(Config.BUTTON_START_X, Config.BUTTON_START_Y + Config.BUTTON_GAP * id));
+    }
+
+    public MenuButton (String buttonString) {
+        this(staticId++, buttonString);
     }
 
     public Position getPosition() {

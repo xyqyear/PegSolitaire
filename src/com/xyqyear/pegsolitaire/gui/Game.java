@@ -16,6 +16,7 @@ public class Game {
     private Mouse mouse = Mouse.getInstance();
     private Keyboard keyboard = Keyboard.getInstance();
     private Core core = Core.getInstance();
+    private Record record = Record.getInstance();
 
     private int state = 0; // 0 for paused, 1 for in-game
     private boolean shouldRerender = true;
@@ -26,11 +27,10 @@ public class Game {
     // Position for buttons
     private final Position buttonSize = new Position(225, 55);
     private MenuButton[] menuButtons = new MenuButton[]{
-            new MenuButton(0, "回到游戏", new Position(190, 110)),
-            new MenuButton(1, "  悔棋  ", new Position(190, 190)),
-            new MenuButton(2, "重新开始", new Position(190, 270)),
-            new MenuButton(3, "", new Position(190, 350)),
-            new MenuButton(4, "", new Position(190, 430))
+            new MenuButton("回到游戏"),
+            new MenuButton("  悔棋  "),
+            new MenuButton("重新开始"),
+            new MenuButton("退出游戏")
     };
 
     public int getState() {
@@ -61,7 +61,7 @@ public class Game {
         this.shouldRerender = needUpdate;
     }
 
-    public void loop() {
+    public boolean loop() {
         // handle button availability
         // if the takeBack button should not be available but it does
         if ((core.getBoard().getPieceNum() == 32 || core.isFinished())) {
@@ -80,7 +80,7 @@ public class Game {
             if (keyboard.shouldGamePause()) {
                 state = 0;
                 setShouldRerender(true);
-                return;
+                return true;
             }
 
             // Piece handling
@@ -98,6 +98,10 @@ public class Game {
                     mousePos.move(pieceRenderOffset.getX() + 26, pieceRenderOffset.getY() + 26);
                     Position toPos = Utils.screenPos2PiecePos(mousePos);
                     core.doStep(fromPos, toPos);
+                    if (core.isFinished()) {
+                        record.addRecord(core.getBoard().getPieceNum());
+                        keyboard.setShouldGamePause(true);
+                    }
                     fromPos = null;
                     setShouldRerender(true);
                 }
@@ -106,7 +110,7 @@ public class Game {
             if (!keyboard.shouldGamePause()) {
                 state = 1;
                 setShouldRerender(true);
-                return;
+                return true;
             }
             for (MenuButton menuButton : menuButtons) {
                 if (Utils.inRange(mouse.getMousePos(), menuButton.getPosition(), buttonSize)) {
@@ -131,18 +135,21 @@ public class Game {
                                     break;
                                 case 2:
                                     core.init();
+                                    keyboard.setShouldGamePause(false);
+                                    break;
+                                case 3:
+                                    return false;
                             }
                         }
                         setShouldRerender(true);
                     }
-                } else {
-                    if (menuButton.isHovering() || menuButton.isPushing()) {
-                        setShouldRerender(true);
-                        menuButton.setHovering(false);
-                        menuButton.setPushing(false);
-                    }
+                } else if (menuButton.isHovering() || menuButton.isPushing()) {
+                    setShouldRerender(true);
+                    menuButton.setHovering(false);
+                    menuButton.setPushing(false);
                 }
             }
         }
+        return true;
     }
 }

@@ -25,6 +25,7 @@ public class Renderer {
     private Core core = Core.getInstance();
     private Game game = Game.getInstance();
     private Mouse mouse = Mouse.getInstance();
+    private Record record = Record.getInstance();
 
     private BufferedImage boardImage;
     private BufferedImage pieceImage;
@@ -32,7 +33,7 @@ public class Renderer {
     private BufferedImage pushedButtonImage;
 
     private BufferedImage frame = Utils.create(Config.CANVAS_WIDTH, Config.CANVAS_HEIGHT, false);
-    private int blurredIteration = 19;
+    private int blurredIteration = 20;
 
     private boolean isFirstRenderHoldingPiece = true;
 
@@ -88,8 +89,8 @@ public class Renderer {
             if (game.getState() == 0) {
                 // render blurred background
                 if (blurredIteration < 20) {
-                    game.setShouldRerender(true);
                     blurredIteration++;
+                    game.setShouldRerender(true);
                 }
                 BufferedImage blurredFrame = new BoxBlurFilter(blurredIteration / 2, blurredIteration / 2, 1).filter(frame, null);
                 Utils.copyImage(blurredFrame, frame);
@@ -97,36 +98,59 @@ public class Renderer {
                 // render the buttons
                 if  (blurredIteration >= 20) {
                     for (MenuButton menuButton : game.getMenuButtons()) {
+                        // game title
+                        frameG.setFont(new Font(Config.TITLE_FONT, Font.PLAIN, Config.TITLE_SIZE));
+                        frameG.setColor(Color.black);
+                        frameG.drawString("孔明棋", Config.TITLE_X, Config.TITLE_Y);
+
+                        // game over
+                        if (core.isFinished()) {
+                            frameG.setFont(new Font(Config.TITLE_FONT, Font.PLAIN, 35));
+                            frameG.setColor(Color.red);
+                            frameG.drawString("游戏结束", 230, 140);
+                        }
+                        frameG.setFont(new Font(Config.TITLE_FONT, Font.PLAIN, 30));
+                        frameG.setColor(Color.black);
+                        int highScore = record.getHighScore();
+                        if (highScore == 0) {
+                            frameG.drawString("无游戏记录", 225, 190);
+                        } else {
+                            frameG.drawString("最少记录:", 225, 190);
+                            frameG.setColor(Color.red);
+                            frameG.drawString(Integer.toString(highScore), 360, 190);
+                        }
 
                         if (!menuButton.isAvailable()) {
                             frameG.drawImage(pushedButtonImage, menuButton.getX(), menuButton.getY(), null);
-                            frameG.setFont(new Font("隶书", Font.PLAIN, 40));
+                            frameG.setFont(new Font(Config.BUTTON_FONT, Font.PLAIN, Config.BUTTON_SIZE));
                             frameG.setColor(Color.darkGray);
                             frameG.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
                         }
                         else if (menuButton.isPushing()) {
                             frameG.drawImage(pushedButtonImage, menuButton.getX(), menuButton.getY(), null);
-                            frameG.setFont(new Font("隶书", Font.PLAIN, 40));
+                            frameG.setFont(new Font(Config.BUTTON_FONT, Font.PLAIN, Config.BUTTON_SIZE));
                             frameG.setColor(Color.black);
                             frameG.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
                         }
                         else if (menuButton.isHovering()) {
                             frameG.drawImage(buttonImage, menuButton.getX() - 5, menuButton.getY() - 5, 240 + 10, 70 + 10, null);
-                            frameG.setFont(new Font("隶书", Font.PLAIN, 46));
+                            frameG.setFont(new Font(Config.BUTTON_FONT, Font.PLAIN, Config.BUTTON_HOVERING_SIZE));
                             frameG.setColor(Color.black);
                             frameG.drawString( menuButton.getButtonString(), menuButton.getX()+20, menuButton.getY()+40);
                         }
                         else {
                             frameG.drawImage(buttonImage, menuButton.getX(), menuButton.getY(), null);
-                            frameG.setFont(new Font("隶书", Font.PLAIN, 40));
+                            frameG.setFont(new Font(Config.BUTTON_FONT, Font.PLAIN, Config.BUTTON_SIZE));
                             frameG.setColor(Color.black);
                             frameG.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
                         }
                     }
                 }
 
-            } else if (blurredIteration > 0)
+            } else if (blurredIteration > 0) {
                 blurredIteration = 0;
+            }
+            frameG.dispose();
         }
         g.drawImage(frame, 0, 0, null);
     }

@@ -54,7 +54,7 @@ Paused:
     - [x] buttons for the pieces
     - [x] buttons for take-back and restart functionality
     - [x] added button listener
-- [ ] final gui
+- [x] final gui
     - [x] Render the game itself
     - [x] make the game playable
     - [x] add blur effect when pressed escape key
@@ -63,8 +63,7 @@ Paused:
     - [x] add icons/buttons to the menu
     - [x] make the menu clickable
     - [x] optimize performance
-    - [ ] add ranking/record menu
-    - [ ] add game start and game over screen/string
-    - [ ] add the animation that make the pieces which are taken be placed in the groove
-    - [ ] ...
+    - [x] add game start and game over screen/string
+    - [x] add record
+- [ ] fix bugs / optimize code
     

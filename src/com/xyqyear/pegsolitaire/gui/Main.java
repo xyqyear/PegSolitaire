@@ -85,7 +85,9 @@ public class Main extends Thread {
         long fpsWait = (long) (1.0 / Config.MAX_FPS * 1000);
         main: while (isRunning) {
             long renderStart = System.nanoTime();
-            game.loop();
+            if (!game.loop()) {
+                break;
+            }
 
             // Update Graphics
             do {
