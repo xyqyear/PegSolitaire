@@ -1,5 +1,3 @@
-**W.I.P.**
-
 ## Current Gui
 Stage 1:
 
@@ -71,4 +69,4 @@ Paused:
     - [x] optimize performance
     - [x] add game start and game over screen/string
     - [x] add record
-- [ ] fix bugs / optimize code
+- [x] fix bugs / optimize code
