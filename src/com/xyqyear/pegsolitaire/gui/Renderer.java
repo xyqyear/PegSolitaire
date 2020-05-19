@@ -128,25 +128,25 @@ public class Renderer {
                             frameG.drawImage(pushedButtonImage, menuButton.getX(), menuButton.getY(), null);
                             frameG.setFont(new Font(Config.BUTTON_FONT, Font.PLAIN, Config.BUTTON_SIZE));
                             frameG.setColor(Color.darkGray);
-                            frameG.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
+                            frameG.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+42);
                         }
                         else if (menuButton.isPushing()) {
                             frameG.drawImage(pushedButtonImage, menuButton.getX(), menuButton.getY(), null);
                             frameG.setFont(new Font(Config.BUTTON_FONT, Font.PLAIN, Config.BUTTON_SIZE));
                             frameG.setColor(Color.black);
-                            frameG.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
+                            frameG.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+42);
                         }
                         else if (menuButton.isHovering()) {
                             frameG.drawImage(buttonImage, menuButton.getX() - 5, menuButton.getY() - 5, 240 + 10, 70 + 10, null);
                             frameG.setFont(new Font(Config.BUTTON_FONT, Font.PLAIN, Config.BUTTON_HOVERING_SIZE));
                             frameG.setColor(Color.black);
-                            frameG.drawString( menuButton.getButtonString(), menuButton.getX()+20, menuButton.getY()+40);
+                            frameG.drawString( menuButton.getButtonString(), menuButton.getX()+20, menuButton.getY()+44);
                         }
                         else {
                             frameG.drawImage(buttonImage, menuButton.getX(), menuButton.getY(), null);
                             frameG.setFont(new Font(Config.BUTTON_FONT, Font.PLAIN, Config.BUTTON_SIZE));
                             frameG.setColor(Color.black);
-                            frameG.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+40);
+                            frameG.drawString( menuButton.getButtonString(), menuButton.getX()+32, menuButton.getY()+42);
                         }
                     }
                 }
