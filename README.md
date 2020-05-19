@@ -1,3 +1,9 @@
+## Dependencies
+
+lib/Filters.jar
+
+lib/sqlite-jdbc-3.30.1.jar
+
 ## Current Gui
 Stage 1:
 
